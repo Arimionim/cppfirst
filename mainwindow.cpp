@@ -156,7 +156,8 @@ void MainWindow::on_deleteButton_clicked()
         if (!(*it)->isHidden() && (*it)->checkState(0) == Qt::Checked) {
             QFile file(rootPath + (*it)->text(0));
             if (!file.remove()) {
-                (*it)->textColor(Qt::red);
+                (*it)->setDisabled(true);
+                (*it)->setCheckState(0, Qt::Unchecked);
             } else {
                 (*it)->setHidden(true);
             }
