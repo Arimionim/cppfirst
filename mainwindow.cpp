@@ -115,7 +115,7 @@ void MainWindow::getFile(QByteArray hash, QString path, bool error){
         nodes[hash] = node;
         newItem = true;
         ui->duples->expandItem(node);
-        node->setHidden(true);
+        node->setHidden(false);
     }
     else{
         if (nodes[hash]->isHidden()){

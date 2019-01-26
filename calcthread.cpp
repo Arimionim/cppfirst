@@ -44,13 +44,13 @@ void calcThread::md5(const QList<QString> &files){
         QString fileName = files[i];
         QFile f(fileName);
         try {
-            f.open(QFile::ReadWrite);
+            f.open(QFile::ReadOnly);
             QCryptographicHash hash(QCryptographicHash::Algorithm::Md5);
             if (hash.addData(&f)) {
                 sendFile(hash.result(), fileName);
             }
         }
-        catch (std::exception e){
+        catch (std::exception const &e){
             sendFile(nullptr, path, true);
         }
     }
@@ -61,7 +61,6 @@ void calcThread::run()
     QList<QString> files;
     numFiles = 0;
     listfilesindir(path, &files);
-    std::cout << numFiles << " files" << std::endl;
     md5(files);
     emit finished(numFiles);
 }
