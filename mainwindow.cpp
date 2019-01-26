@@ -115,13 +115,15 @@ void MainWindow::getFile(QByteArray hash, QString path, bool error){
         nodes[hash] = node;
         newItem = true;
         ui->duples->expandItem(node);
-        node->setHidden(false);
+        node->setHidden(true);
     }
     else{
         if (nodes[hash]->isHidden()){
             nodes[hash]->setHidden(false);
         }
         nodes[hash]->setText(0, QString::number(nodes[hash]->childCount() + 1) + " files");
+
+        ui->duples->update(ui->duples->rootIndex());
     }
 
     QTreeWidgetItem *item = new QTreeWidgetItem(
