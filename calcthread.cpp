@@ -64,6 +64,8 @@ void calcThread::run()
     listfilesindir(path, &files);
     md5(files);
     emit scanFinished();
+    std::cout << "want to finish" << std::endl;
     emit finished();
+    std::cout << "send signal" << std::endl;
 }
 

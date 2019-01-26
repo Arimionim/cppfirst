@@ -21,10 +21,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->progressBar->setValue(0);
     job = nullptr;
     ui->duples->setHeaderHidden(1);
+
+    ui->cancelButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
 {
+    if (job)
+        job->requestInterruption();
     delete ui;
 }
 
@@ -62,10 +67,9 @@ void MainWindow::on_goButton_clicked()
 
 void MainWindow::on_findButton_clicked()
 {
-    if (job && job->isRunning() && !job->isFinished()){
-        ui->statusBar->showMessage("Wait please", 2000);
-        return;
-    }
+    ui->findButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
+    ui->cancelButton->setEnabled(true);
     calcThread *calc = new calcThread();
     nodes.clear();
     ui->duples->clear();
@@ -74,6 +78,7 @@ void MainWindow::on_findButton_clicked()
     rootPath = model->filePath(ui->dir->rootIndex());
     connect(job, &QThread::started, calc, &calcThread::run);
 
+    connect(calc, &calcThread::finished, this, &MainWindow::scanFinished);
     connect(calc, &calcThread::setProgress, this, &MainWindow::setProgress);
     connect(calc, &calcThread::scanFinished, this, &MainWindow::scanFinished);
     connect(calc, &calcThread::sendFile, this, &MainWindow::getFile);
@@ -132,6 +137,9 @@ void MainWindow::getFile(QByteArray hash, QString path, bool error){
 void MainWindow::scanFinished(){
     emit setProgress(100);
     ui->statusLabel->setText("Finished");
+    ui->findButton->setEnabled(true);
+    ui->deleteButton->setEnabled(true);
+    ui->cancelButton->setEnabled(false);
 }
 
 void MainWindow::setProgress(int v){

@@ -29,7 +29,6 @@ private slots:
     void scanFinished();
     void getFile(QByteArray hash, QString path, bool error);
 
-
     void on_deleteButton_clicked();
 
 private:
