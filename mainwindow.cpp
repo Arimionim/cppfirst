@@ -80,7 +80,6 @@ void MainWindow::on_findButton_clicked()
 
     connect(calc, &calcThread::finished, this, &MainWindow::scanFinished);
     connect(calc, &calcThread::setProgress, this, &MainWindow::setProgress);
-    connect(calc, &calcThread::scanFinished, this, &MainWindow::scanFinished);
     connect(calc, &calcThread::sendFile, this, &MainWindow::getFile);
 
     connect(job, &QThread::finished, calc, &calcThread::deleteLater);
@@ -134,9 +133,9 @@ void MainWindow::getFile(QByteArray hash, QString path, bool error){
     item->setCheckState(0, !newItem ? Qt::Checked : Qt::Unchecked);
 }
 
-void MainWindow::scanFinished(){
+void MainWindow::scanFinished(int cnt){
     emit setProgress(100);
-    ui->statusLabel->setText("Finished");
+    ui->statusLabel->setText("Finished. Checked " + QString::number(cnt) + " files");
     ui->findButton->setEnabled(true);
     ui->deleteButton->setEnabled(true);
     ui->cancelButton->setEnabled(false);

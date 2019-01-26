@@ -61,7 +61,6 @@ void calcThread::run()
     QList<QString> files;
     numFiles = 0;
     listfilesindir(path, &files);
-    std::cout << numFiles << " files" << std::endl;
     md5(files);
     emit finished(numFiles);
 }

@@ -18,9 +18,8 @@ public slots:
     void run();
 
 signals:
-    void finished();
+    void finished(int );
     void setProgress(int v);
-    void scanFinished();
     void sendFile(QByteArray hash, QString path, bool error = false);
 
 private:
