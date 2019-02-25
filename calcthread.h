@@ -25,7 +25,7 @@ signals:
 private:
     int numFiles;
     void listfilesindir(QString, QList<QString>*);
-    void md5(const QList<QString>&);
+    void compare(const QList<QString>&);
 
 };
 #endif // CALCTHREAD_H

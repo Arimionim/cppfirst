@@ -93,12 +93,10 @@ void MainWindow::on_findButton_clicked()
 
 void MainWindow::on_cancelButton_clicked()
 {
-    if (job && job->isRunning() && !job->isFinished()){
-        job->requestInterruption();
-    }
+    job->requestInterruption();
 }
 
-void MainWindow::getFile(QByteArray hash, QString path, bool error){
+void MainWindow::getFile(QByteArray hash, QString path, bool error = false){
     if (error){
         QTreeWidgetItem *item = new QTreeWidgetItem(
             ui->duples,
@@ -156,7 +154,7 @@ void MainWindow::on_deleteButton_clicked()
         if (!(*it)->isHidden() && (*it)->checkState(0) == Qt::Checked) {
             QFile file(rootPath + (*it)->text(0));
             if (!file.remove()) {
-                (*it)->setDisabled(true);
+                (*it)->setDisabled(true) ;
                 (*it)->setCheckState(0, Qt::Unchecked);
             } else {
                 (*it)->setHidden(true);
